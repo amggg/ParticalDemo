@@ -7,8 +7,8 @@ import java.util.List;
  * 上升粒子
  */
 public class ParticalBean {
-    //画笔
-    private Paint paint;
+    //颜色
+    private int color;
     //x位置
     private int x;
     //y位置
@@ -22,20 +22,20 @@ public class ParticalBean {
     //爆炸后粒子数据
     private List<BoomParicalBean> boomParicalBeans;
 
-    public ParticalBean(Paint paint, int x, int y, int speed, int distance) {
-        this.paint = paint;
+    public ParticalBean(int color, int x, int y, int speed, int distance) {
+        this.color = color;
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.distance = distance;
     }
 
-    public Paint getPaint() {
-        return paint;
+    public int getColor() {
+        return color;
     }
 
-    public void setPaint(Paint paint) {
-        this.paint = paint;
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public int getDistance() {

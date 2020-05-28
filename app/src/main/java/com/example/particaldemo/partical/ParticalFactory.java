@@ -9,15 +9,15 @@ import android.graphics.Paint;
 class ParticalFactory {
 
     /** 生成上升粒子
-     * @param paint
+     * @param color
      * @param x
      * @param y
      * @param speed
      * @param distance
      * @return
      */
-    static ParticalBean createPartical(Paint paint, int x, int y, int speed, int distance){
-        return new ParticalBean(paint, x, y, speed, distance);
+    static ParticalBean createPartical(int color, int x, int y, int speed, int distance){
+        return new ParticalBean(color, x, y, speed, distance);
     }
 
     /** 生成爆炸粒子

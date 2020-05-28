@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Random;
 
 public class ParticalView extends View {
+    private Paint paint;
+
     private GestureDetector gestureDetector;
     //上升粒子数据
     private List<ParticalBean> list;
@@ -48,6 +50,12 @@ public class ParticalView extends View {
     }
 
     private void init(){
+        paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setStrokeWidth(2);
+
         fragmentsRaduis = 300;
         particalRaduis = 20;
         boomParticalMoveY = 80;
@@ -60,7 +68,7 @@ public class ParticalView extends View {
             @Override
             public boolean onDown(MotionEvent e) {
                 ViewCompat.postInvalidateOnAnimation(ParticalView.this);
-                list.add(ParticalFactory.createPartical(cratePaint(), (int) e.getX(), (int)e.getY(), (int) (Math.random() * (15-5)+5), (int) (Math.random() * 1000)));
+                list.add(ParticalFactory.createPartical(Color.parseColor(getRandColor()), (int) e.getX(), (int)e.getY(), (int) (Math.random() * (15-5)+5), (int) (Math.random() * 1000)));
                 return true;
             }
         });
@@ -78,7 +86,9 @@ public class ParticalView extends View {
         if(!list.isEmpty()){
             for (ParticalBean particalBean : list) {
                 if(!particalBean.isBoom()){
-                    canvas.drawCircle(particalBean.getX(), particalBean.getY(), 50, particalBean.getPaint());
+                    paint.setColor(particalBean.getColor());
+                    paint.setShadowLayer(16,0,0, particalBean.getColor());
+                    canvas.drawCircle(particalBean.getX(), particalBean.getY(), 50, paint);
                     particalBean.setY(particalBean.getY() - particalBean.getSpeed());
                 }
             }
@@ -110,7 +120,9 @@ public class ParticalView extends View {
                     List<BoomParicalBean> boomParicalBeans = particalBean.getBoomParicalBeans();
                     for (int i=0; i<boomParicalBeans.size() ;i++){
                         BoomParicalBean boomParicalBean = boomParicalBeans.get(i);
-                        canvas.drawCircle(boomParicalBean.getX(), boomParicalBean.getY(), boomParicalBean.getRaduis(), particalBean.getPaint());
+                        paint.setColor(particalBean.getColor());
+                        paint.setShadowLayer(16,0,0, particalBean.getColor());
+                        canvas.drawCircle(boomParicalBean.getX(), boomParicalBean.getY(), boomParicalBean.getRaduis(), paint);
                         boomParicalBean.setY(boomParicalBean.getY() + boomParicalBean.getSpeed());
 
                         if(boomParicalBean.getY() >= boomParicalBean.getDistance()){
@@ -131,21 +143,6 @@ public class ParticalView extends View {
         }
     }
 
-
-    /**获取随机颜色画笔
-     * @return
-     */
-    public static Paint cratePaint(){
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setDither(true);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setStrokeWidth(2);
-        int color = Color.parseColor(getRandColor());
-        paint.setColor(color);
-        paint.setShadowLayer(16,0,0, color);
-        return paint;
-    }
 
     /**
      * 获取十六进制的颜色代码.例如  "#5A6677"
